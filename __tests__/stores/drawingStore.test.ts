@@ -73,12 +73,12 @@ describe("DrawingStore", () => {
   });
 
   it("should notify listeners when size changes", () => {
-    const listener = jest.fn();
+    const mockListener = jest.fn();
 
     store.setState({ size: 10 });
-    store.subscribe("size", listener);
+    store.subscribe("size", mockListener);
     store.increaseSize();
 
-    expect(listener).toHaveBeenCalledWith(11);
+    expect(mockListener).toHaveBeenCalledWith(11);
   });
 });
