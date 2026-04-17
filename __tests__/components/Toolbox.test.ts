@@ -5,7 +5,7 @@ import type { ToolboxComponent } from "@/types/components";
 
 import Toolbox from "@/components/Toolbox/Toolbox";
 
-import { drawingStore } from "@/stores/drawingStore";
+import { drawStore } from "@/stores/drawStore";
 
 const renderComponent = (): ToolboxComponent => {
   const container = Toolbox();
@@ -15,12 +15,12 @@ const renderComponent = (): ToolboxComponent => {
 
 describe("Toolbox Component", () => {
   beforeEach(() => {
-    drawingStore.setState({ size: 30, color: "#000000", canvasCtx: null });
+    drawStore.setState({ size: 30, color: "#000000", canvasCtx: null });
   });
 
   afterEach(() => {
     document.body.innerHTML = "";
-    drawingStore.setState({ size: 30, color: "#000000", canvasCtx: null });
+    drawStore.setState({ size: 30, color: "#000000", canvasCtx: null });
   });
 
   it("should render toolbox with correct structure", () => {
@@ -75,7 +75,7 @@ describe("Toolbox Component", () => {
 
   it("should decrease size when decrease button is clicked", async () => {
     const user = userEvent.setup();
-    drawingStore.setState({ size: 10 });
+    drawStore.setState({ size: 10 });
     renderComponent();
 
     const decreaseButton = screen.getByRole("button", {
@@ -83,7 +83,7 @@ describe("Toolbox Component", () => {
     });
     await user.click(decreaseButton);
 
-    expect(drawingStore.get("size")).toBe(9);
+    expect(drawStore.get("size")).toBe(9);
   });
 
   it("should update color when color input changes", () => {
@@ -96,13 +96,13 @@ describe("Toolbox Component", () => {
       colorInput.dispatchEvent(new Event("change", { bubbles: true }));
     }
 
-    expect(drawingStore.get("color")).toBe("#ff0000");
+    expect(drawStore.get("color")).toBe("#ff0000");
   });
 
   it("should update size display when store changes", () => {
     renderComponent();
 
-    drawingStore.setState({ size: 15 });
+    drawStore.setState({ size: 15 });
 
     const sizeDisplay = document.querySelector<HTMLSpanElement>("#size");
     expect(sizeDisplay?.textContent).toBe("15");

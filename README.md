@@ -1,4 +1,4 @@
-# Drawing Page
+# Inklet
 
 ## Educational Purpose
 
@@ -17,9 +17,17 @@ The application will open automatically at `http://localhost:3000`
 
 ## Description
 
-I made a web page in which through canvas you can draw. In this canvas box you can draw with different brush sizes and change the color of the brush. There is also a clear button to clear the whole canvas.
+**Inklet** is a browser-based freehand drawing application built on the HTML5 Canvas API. It provides an 800×600 pixel canvas where users can draw freely using their mouse — pressing and holding to paint, and moving to create continuous strokes.
 
-**NOT SUPPORT FOR MOBILE**
+The brush engine combines filled circles at each cursor position with connecting line segments, producing smooth, gap-free strokes at any speed. Every stroke is rendered instantly with no perceptible lag.
+
+Users have full control over two brush properties: **size**, adjustable from 1px to 30px in 1px increments using the increase (+) and decrease (−) buttons; and **color**, selected through a native color picker that supports the full RGB spectrum. The current brush size is displayed in real time in the toolbar. A **Clear** button wipes the entire canvas in one click, resetting it to a blank state.
+
+State across the toolbar and canvas is managed through a reactive pub/sub store — changes to brush size or color are reflected immediately without any page reload or manual sync.
+
+The application has zero production dependencies. It is built with pure Vanilla TypeScript compiled by Vite, making it extremely lightweight and fast to load.
+
+> Desktop only — mouse input required. Mobile and touch devices are not supported.
 
 ## Technologies used
 
@@ -61,11 +69,7 @@ No production dependencies - Pure Vanilla TypeScript
 
 ## Portfolio Link
 
-[`https://www.diegolibonati.com.ar/#/project/Drawing-Page`](https://www.diegolibonati.com.ar/#/project/Drawing-Page)
-
-## Video
-
-https://user-images.githubusercontent.com/99032604/199621616-777a3055-a1dc-4c1d-a0c4-5e04c222aa27.mp4
+[`https://www.diegolibonati.com.ar/#/project/inklet`](https://www.diegolibonati.com.ar/#/project/inklet)
 
 ## Testing
 

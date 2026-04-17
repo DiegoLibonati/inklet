@@ -2,11 +2,11 @@ import type { Page } from "@/types/pages";
 
 import Toolbox from "@/components/Toolbox/Toolbox";
 
-import { drawingStore } from "@/stores/drawingStore";
+import { drawStore } from "@/stores/drawStore";
 
-import "@/pages/DrawingPage/DrawingPage.css";
+import "@/pages/InkletPage/InkletPage.css";
 
-const DrawingPage = (): Page => {
+const InkletPage = (): Page => {
   const divRoot = document.createElement("div") as Page;
   divRoot.className = "";
 
@@ -16,7 +16,7 @@ const DrawingPage = (): Page => {
 
   const canvas = divRoot.querySelector<HTMLCanvasElement>(".canvas");
   const ctx = canvas!.getContext("2d");
-  drawingStore.setCanvasContext(ctx);
+  drawStore.setCanvasContext(ctx);
 
   const toolbox = Toolbox();
 
@@ -39,7 +39,7 @@ const DrawingPage = (): Page => {
   };
 
   const handleMouseMove = (e: MouseEvent): void => {
-    const { canvasCtx, size, color } = drawingStore.getState();
+    const { canvasCtx, size, color } = drawStore.getState();
 
     if (!isPressed || !canvasCtx) return;
 
@@ -73,10 +73,10 @@ const DrawingPage = (): Page => {
 
     toolbox.cleanup?.();
 
-    drawingStore.setCanvasContext(null);
+    drawStore.setCanvasContext(null);
   };
 
   return divRoot;
 };
 
-export default DrawingPage;
+export default InkletPage;

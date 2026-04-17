@@ -1,9 +1,9 @@
-import type { DrawingState } from "@/types/states";
+import type { DrawState } from "@/types/states";
 
 import { Store } from "@/core/store";
 
-export class DrawingStore extends Store<DrawingState> {
-  // constructor(initialState: DrawingState) {
+export class DrawStore extends Store<DrawState> {
+  // constructor(initialState: DrawState) {
   //   super(initialState);
   // }
 
@@ -34,7 +34,7 @@ export class DrawingStore extends Store<DrawingState> {
   }
 }
 
-export const drawingStore = new DrawingStore({
+export const drawStore = new DrawStore({
   size: 30,
   color: "#000000",
   canvasCtx: null,

@@ -1,7 +1,7 @@
 {
-  "name": "Drawing",
-  "short_name": "Drawing",
-  "description": "I made a web page in which through canvas you can draw. In this canvas box you can draw with different brush sizes and change the color of the brush. There is also a clear button to clear the whole canvas.",
+  "name": "Inklet",
+  "short_name": "Inklet",
+  "description": "Inklet is a browser-based freehand drawing application built on the HTML5 Canvas API. It provides an 800×600 pixel canvas where users can draw freely using their mouse — pressing and holding to paint, and moving to create continuous strokes.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",

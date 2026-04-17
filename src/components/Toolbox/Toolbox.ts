@@ -2,25 +2,25 @@ import type { ToolboxComponent } from "@/types/components";
 
 import Button from "@/components/Button/Button";
 
-import { drawingStore } from "@/stores/drawingStore";
+import { drawStore } from "@/stores/drawStore";
 
 import "@/components/Toolbox/Toolbox.css";
 
 const handleIncreaseSize = (): void => {
-  drawingStore.increaseSize();
+  drawStore.increaseSize();
 };
 
 const handleDecreaseSize = (): void => {
-  drawingStore.decreaseSize();
+  drawStore.decreaseSize();
 };
 
 const handleSetColor = (e: Event): void => {
   const value = (e.target as HTMLInputElement).value;
-  drawingStore.setColor(value);
+  drawStore.setColor(value);
 };
 
 const handleClearCanvas = (): void => {
-  const { canvasCtx } = drawingStore.getState();
+  const { canvasCtx } = drawStore.getState();
 
   const canvas = document.querySelector<HTMLCanvasElement>(".canvas");
 
@@ -30,7 +30,7 @@ const handleClearCanvas = (): void => {
 };
 
 const Toolbox = (): ToolboxComponent => {
-  const { size, color } = drawingStore.getState();
+  const { size, color } = drawStore.getState();
 
   const divRoot = document.createElement("div") as ToolboxComponent;
   divRoot.className = "toolbox";
@@ -81,7 +81,7 @@ const Toolbox = (): ToolboxComponent => {
   toolboxInputColor?.addEventListener("change", handleColorChange);
 
   const renderSize = (): void => {
-    const { size } = drawingStore.getState();
+    const { size } = drawStore.getState();
 
     const toolboxSize =
       divRoot.querySelector<HTMLSpanElement>(".toolbox__size");
@@ -93,7 +93,7 @@ const Toolbox = (): ToolboxComponent => {
     }
   };
 
-  const unsubscribe = drawingStore.subscribe("size", renderSize);
+  const unsubscribe = drawStore.subscribe("size", renderSize);
 
   divRoot.cleanup = (): void => {
     unsubscribe();
