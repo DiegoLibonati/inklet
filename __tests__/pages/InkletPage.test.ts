@@ -30,12 +30,13 @@ const renderPage = (): Page => {
 };
 
 describe("InkletPage", () => {
-  let page: Page;
+  let page: Page | undefined;
 
   afterEach(() => {
-    page.cleanup?.();
+    page?.cleanup?.();
     document.body.innerHTML = "";
     drawStore.setState({ size: 30, color: "#000000", canvasCtx: null });
+    jest.restoreAllMocks();
   });
 
   describe("rendering", () => {
