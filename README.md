@@ -6,15 +6,6 @@ This project was created primarily for **educational and learning purposes**.
 While it is well-structured and could technically be used in production, it is **not intended for commercialization**.  
 The main goal is to explore and demonstrate best practices, patterns, and technologies in software development.
 
-## Getting Started
-
-1. Clone the repository
-2. Navigate to the project folder
-3. Execute: `npm install`
-4. Execute: `npm run dev`
-
-The application will open automatically at `http://localhost:3000`
-
 ## Description
 
 **Inklet** is a browser-based freehand drawing application built on the HTML5 Canvas API. It provides an 800×600 pixel canvas where users can draw freely using their mouse — pressing and holding to paint, and moving to create continuous strokes.
@@ -37,6 +28,8 @@ The application has zero production dependencies. It is built with pure Vanilla 
 4. Vite
 
 ## Libraries used
+
+The runtime ships with zero third-party code; everything below is tooling for development, testing, and linting.
 
 #### Dependencies
 
@@ -68,11 +61,20 @@ No production dependencies - Pure Vanilla TypeScript
 "vite": "^7.1.6"
 ```
 
-## Portfolio Link
+## Getting Started
 
-[`https://www.diegolibonati.com.ar/#/project/inklet`](https://www.diegolibonati.com.ar/#/project/inklet)
+With the toolchain above installed, you can spin up the app locally in four steps:
+
+1. Clone the repository
+2. Navigate to the project folder
+3. Execute: `npm install`
+4. Execute: `npm run dev`
+
+The application will open automatically at `http://localhost:3000`.
 
 ## Testing
+
+Once the app runs locally, you can validate behavior with the Jest suite (jsdom + Testing Library).
 
 1. Navigate to the project folder
 2. Execute: `npm test`
@@ -83,11 +85,9 @@ For coverage report:
 npm run test:coverage
 ```
 
-## Security
+## Security Audit
 
-### npm audit
-
-Check for vulnerabilities in dependencies:
+Beyond functional tests, check the dependency tree for known vulnerabilities:
 
 ```bash
 npm audit
@@ -96,3 +96,7 @@ npm audit
 ## Known Issues
 
 None at the moment.
+
+## Portfolio Link
+
+[`https://www.diegolibonati.com.ar/#/project/inklet`](https://www.diegolibonati.com.ar/#/project/inklet)
