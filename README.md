@@ -63,7 +63,7 @@ No production dependencies - Pure Vanilla TypeScript
 
 ## Getting Started
 
-With the toolchain above installed, you can spin up the app locally in four steps:
+Requires **Node.js >= 22**. You can spin up the app locally in four steps:
 
 1. Clone the repository
 2. Navigate to the project folder

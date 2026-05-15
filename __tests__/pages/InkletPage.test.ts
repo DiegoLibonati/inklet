@@ -59,6 +59,12 @@ describe("InkletPage", () => {
       expect(toolbox).toBeInTheDocument();
     });
 
+    it("should render canvas with correct id", () => {
+      page = renderPage();
+      const canvas = document.querySelector<HTMLCanvasElement>(".canvas");
+      expect(canvas).toHaveAttribute("id", "canvas");
+    });
+
     it("should render toolbox buttons", () => {
       page = renderPage();
       expect(
@@ -126,6 +132,21 @@ describe("InkletPage", () => {
       expect(mockBeginPath).not.toHaveBeenCalled();
     });
 
+    it("should update stroke coordinates across consecutive mousemove events", () => {
+      page = renderPage();
+      const canvas = document.querySelector<HTMLCanvasElement>(".canvas")!;
+      const ctx = drawStore.get("canvasCtx");
+
+      canvas.dispatchEvent(createMouseEvent("mousedown", 0, 0));
+      canvas.dispatchEvent(createMouseEvent("mousemove", 10, 10));
+      canvas.dispatchEvent(createMouseEvent("mousemove", 20, 20));
+
+      const mockLineTo = ctx?.lineTo as jest.Mock;
+      expect(mockLineTo).toHaveBeenCalledTimes(2);
+      expect(mockLineTo.mock.calls[0]).toEqual([10, 10]);
+      expect(mockLineTo.mock.calls[1]).toEqual([20, 20]);
+    });
+
     it("should use store color and size when drawing", () => {
       drawStore.setState({ color: "#ff0000", size: 15 });
       page = renderPage();
@@ -148,6 +169,16 @@ describe("InkletPage", () => {
     it("should define a cleanup function", () => {
       page = renderPage();
       expect(page.cleanup).toBeDefined();
+    });
+
+    it("should clean up toolbox subscriptions on page cleanup", () => {
+      page = renderPage();
+      page.cleanup?.();
+
+      drawStore.setState({ size: 15 });
+
+      const sizeDisplay = document.querySelector<HTMLSpanElement>("#size");
+      expect(sizeDisplay).toHaveTextContent("30");
     });
 
     it("should remove canvas event listeners on cleanup", () => {

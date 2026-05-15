@@ -84,6 +84,13 @@ describe("Store", () => {
       expect(mockCountListener).toHaveBeenCalled();
       expect(mockNameListener).not.toHaveBeenCalled();
     });
+
+    it("should not notify listeners when setState is called with an empty object", () => {
+      const mockListener = jest.fn();
+      store.subscribe("count", mockListener);
+      store.setState({});
+      expect(mockListener).not.toHaveBeenCalled();
+    });
   });
 
   describe("subscribe", () => {
@@ -112,6 +119,17 @@ describe("Store", () => {
       store.setState({ count: 5 });
       expect(mockListenerA).not.toHaveBeenCalled();
       expect(mockListenerB).toHaveBeenCalledWith(5);
+    });
+
+    it("should handle calling unsubscribe twice without throwing", () => {
+      const mockListener = jest.fn();
+      const unsubscribe = store.subscribe("count", mockListener);
+      unsubscribe();
+      expect(() => {
+        unsubscribe();
+      }).not.toThrow();
+      store.setState({ count: 5 });
+      expect(mockListener).not.toHaveBeenCalled();
     });
   });
 });

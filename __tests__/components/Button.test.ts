@@ -51,6 +51,16 @@ describe("Button", () => {
       const button = screen.getByRole("button", { name: "Test button" });
       expect(button).toHaveClass("custom-button");
     });
+
+    it("should set empty className when className is not provided", () => {
+      const button = renderComponent({ className: undefined! });
+      expect(button.className).toBe("");
+    });
+
+    it("should set empty content when children is not provided", () => {
+      const button = renderComponent({ children: undefined! });
+      expect(button.innerHTML).toBe("");
+    });
   });
 
   describe("behavior", () => {
@@ -68,6 +78,12 @@ describe("Button", () => {
   describe("cleanup", () => {
     it("should not add cleanup for submit button", () => {
       const button = renderComponent({ type: "submit" });
+
+      expect(button.cleanup).toBeUndefined();
+    });
+
+    it("should not add cleanup when type is button and no onClick is provided", () => {
+      const button = renderComponent({ onClick: undefined! });
 
       expect(button.cleanup).toBeUndefined();
     });

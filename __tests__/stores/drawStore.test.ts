@@ -47,6 +47,12 @@ describe("DrawStore", () => {
       drawStore.increaseSize();
       expect(drawStore.get("size")).toBe(30);
     });
+
+    it("should increase size from the minimum value", () => {
+      drawStore.setState({ size: 1 });
+      drawStore.increaseSize();
+      expect(drawStore.get("size")).toBe(2);
+    });
   });
 
   describe("decreaseSize", () => {
@@ -66,6 +72,12 @@ describe("DrawStore", () => {
       drawStore.setState({ size: 2 });
       drawStore.decreaseSize();
       expect(drawStore.get("size")).toBe(1);
+    });
+
+    it("should decrease size from the maximum value", () => {
+      drawStore.setState({ size: 30 });
+      drawStore.decreaseSize();
+      expect(drawStore.get("size")).toBe(29);
     });
   });
 

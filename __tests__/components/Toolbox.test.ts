@@ -7,6 +7,8 @@ import Toolbox from "@/components/Toolbox/Toolbox";
 
 import { drawStore } from "@/stores/drawStore";
 
+import { mockCtx } from "@tests/__mocks__/ctx.mock";
+
 const renderComponent = (): ToolboxComponent => {
   const container = Toolbox();
   document.body.appendChild(container);
@@ -110,6 +112,59 @@ describe("Toolbox", () => {
       const sizeDisplay = document.querySelector<HTMLSpanElement>("#size");
       expect(sizeDisplay).toHaveTextContent("15");
     });
+
+    it("should increase size when increase button is clicked and below max", async () => {
+      const user = userEvent.setup();
+      drawStore.setState({ size: 10 });
+      renderComponent();
+
+      const increaseButton = screen.getByRole("button", {
+        name: "Increase brush size",
+      });
+      await user.click(increaseButton);
+
+      expect(drawStore.get("size")).toBe(11);
+    });
+
+    it("should not decrease size below min when at min", async () => {
+      const user = userEvent.setup();
+      drawStore.setState({ size: 1 });
+      renderComponent();
+
+      const decreaseButton = screen.getByRole("button", {
+        name: "Decrease brush size",
+      });
+      await user.click(decreaseButton);
+
+      const sizeDisplay = document.querySelector<HTMLSpanElement>("#size");
+      expect(sizeDisplay).toHaveTextContent("1");
+    });
+
+    it("should call clearRect when clear button is clicked and canvasCtx is set", async () => {
+      const user = userEvent.setup();
+      const canvas = document.createElement("canvas");
+      canvas.className = "canvas";
+      canvas.width = 800;
+      canvas.height = 600;
+      document.body.appendChild(canvas);
+      drawStore.setState({ canvasCtx: mockCtx });
+      renderComponent();
+
+      const clearButton = screen.getByRole("button", { name: "Clear canvas" });
+      await user.click(clearButton);
+
+      expect(mockCtx.clearRect).toHaveBeenCalledWith(0, 0, 800, 600);
+    });
+
+    it("should not call clearRect when clear button is clicked and canvasCtx is null", async () => {
+      const user = userEvent.setup();
+      renderComponent();
+
+      const clearButton = screen.getByRole("button", { name: "Clear canvas" });
+      await user.click(clearButton);
+
+      expect(mockCtx.clearRect).not.toHaveBeenCalled();
+    });
   });
 
   describe("cleanup", () => {
@@ -123,6 +178,16 @@ describe("Toolbox", () => {
       const toolbox = renderComponent();
 
       expect(() => toolbox.cleanup?.()).not.toThrow();
+    });
+
+    it("should stop updating size display after cleanup", () => {
+      const toolbox = renderComponent();
+
+      toolbox.cleanup?.();
+      drawStore.setState({ size: 15 });
+
+      const sizeDisplay = document.querySelector<HTMLSpanElement>("#size");
+      expect(sizeDisplay).toHaveTextContent("30");
     });
   });
 });
