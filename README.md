@@ -85,6 +85,52 @@ For coverage report:
 npm run test:coverage
 ```
 
+## Continuous Integration
+
+The repository ships with a **GitHub Actions** pipeline defined in [`.github/workflows/ci.yml`](.github/workflows/ci.yml). It runs automatically on every `push` and `pull_request` targeting the `main` branch.
+
+### Pipeline overview
+
+```
+                ┌─── PR or push to main ───┐
+                            ▼
+┌──────────────────────┐  ┌──────────────────┐  ┌──────────────────────┐
+│   lint-and-audit     │─▶│     testing      │─▶│        build         │
+│  eslint · tsc check  │  │ jest (jsdom + TL)│  │ tsc + vite build     │
+└──────────────────────┘  └──────────────────┘  └──────────────────────┘
+```
+
+All jobs run on `ubuntu-latest`, use the Node.js version pinned in [`.nvmrc`](.nvmrc) (Node 22), and reuse the npm cache between runs for faster installs.
+
+### Validation jobs
+
+1. **`lint-and-audit`** — installs dependencies with `npm ci`, then runs `npm run lint` (ESLint with the TypeScript ruleset) and `npm run type-check` (TypeScript compiler in `--noEmit` mode).
+2. **`testing`** — runs `npm test`, executing the full Jest suite under `jest-environment-jsdom` with Testing Library. Depends on `lint-and-audit`.
+3. **`build`** — runs `npm run build`, which type-checks the project and produces the optimized Vite production bundle. Depends on `testing`.
+
+Each job runs in its own clean runner; jobs are chained with `needs:` so a failure in an earlier stage short-circuits the pipeline and prevents the later stages from running.
+
+### Where the build outputs live
+
+| Output                                           | Location                     |
+| ------------------------------------------------ | ---------------------------- |
+| Validation logs (lint, type-check, tests, build) | **Actions** tab on GitHub    |
+| Production bundle (`dist/`)                      | Ephemeral, inside the runner |
+
+### Running the same checks locally
+
+```bash
+# lint-and-audit
+npm run lint
+npm run type-check
+
+# testing
+npm test
+
+# build
+npm run build
+```
+
 ## Security Audit
 
 Beyond functional tests, check the dependency tree for known vulnerabilities:
